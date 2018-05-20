@@ -3,6 +3,11 @@ pragma solidity ^0.4.24;
 import "./safeMath.sol";
 import "./interface.sol";
 
+/**
+ * @title HFR Token
+ * Author : xas.io
+ * Version : 1.1
+*/
 contract HFRToken is ERC20 {
     using SafeMath for uint256;
 
@@ -55,11 +60,7 @@ contract HFRToken is ERC20 {
     * @param _to address The address which you want to transfer to
     * @param _value uint256 the amount of tokens to be transferred
     */
-    function transferFrom (
-        address _from,
-        address _to,
-        uint256 _value
-    ) public returns (bool)
+    function transferFrom (address _from, address _to, uint256 _value) public returns (bool)
     {
         require(_to != address(0));
         require(_value <= balances[_from]);
@@ -96,5 +97,21 @@ contract HFRToken is ERC20 {
     */
     function allowance(address _owner, address _spender) public view returns (uint256) {
         return allowed[_owner][_spender];
+    }
+
+    /**
+    * @dev Default constructor
+    * Initialize all the tokens to the creator
+    */
+    constructor() public {
+        balances[msg.sender] = totalSupply();
+    }
+
+    /**
+    * @dev default fallback
+    * Revert as nothing as to be done
+    */
+    function () public payable {
+        revert();
     }
 }
